@@ -11,9 +11,7 @@ router.post('/create', Controller.create)
 
 router.put('/employee/:id', Controller.update);
 
-router.delete('/posts/:id', async function (req, res) {
-
-});
+router.delete('/employee/:id', Controller.remove);
 
 
 

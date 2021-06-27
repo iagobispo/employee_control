@@ -13,8 +13,7 @@ module.exports = {
 
     async show(req, res) {
         try {
-            const search = req.query.search
-            console.log(search)
+            const search = req.params.search
             const results = await client.query('select * from employee where name || occupation || phone1 || cpf_cnpj || regime  ilike $1', ['%' + search + '%'])
             res.send(results.rows)
         } catch (error) {
@@ -46,7 +45,7 @@ module.exports = {
     async update(req, res) {
         try {
             const { name, cpf_cnpj, email, occupation, regime, phone1, phone2 } = req.body;
-            const id = Number(req.query.id);
+            const id = Number(req.params.id);
 
             const sql = `UPDATE employee SET name=$1, cpf_cnpj=$2, email=$3, occupation=$4, regime=$5, phone1=$6, phone2=$7 WHERE idEmployee = ${id} `;
             const values = [name, cpf_cnpj, email, occupation, regime, phone1, phone2];
@@ -57,6 +56,20 @@ module.exports = {
             return res.status(400).send({ error: 'it was not possible to change.' })
         }
 
+    },
+
+    async remove(req, res) {
+        try {
+            const id = Number(req.params.id);
+
+            const sql = 'DELETE FROM employee WHERE idEmployee=$1;';
+            await client.query(sql, [id]);
+
+            res.send('employee successfully removed');
+
+        } catch (error) {
+            return res.status(400).send({ error: 'it was not possible to remove the employee.' });
+        }
     }
 
 }
