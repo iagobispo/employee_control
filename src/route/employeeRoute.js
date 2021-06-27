@@ -9,9 +9,7 @@ router.get('/search/:search', Controller.show);
 
 router.post('/create', Controller.create)
 
-router.put('/posts/:id', async function (req, res) {
-
-});
+router.put('/employee/:id', Controller.update);
 
 router.delete('/posts/:id', async function (req, res) {
 
